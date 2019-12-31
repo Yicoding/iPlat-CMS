@@ -231,7 +231,7 @@ async function updateOrderGood(ctx, next) {
 // 删除单个订单
 async function removeOrder(ctx, next) {
     await mysql('order_list').where({
-        id: ctx.query.id || ctx.request.body.id
+        id: ctx.request.body.id
     }).del().then(res => {
         ctx.state.code = 0
         ctx.state.data = res

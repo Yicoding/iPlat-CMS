@@ -263,7 +263,7 @@ async function updateGoods(ctx, next) {
 async function removeGoods(ctx, next) {
   await mysql('goods').where({
     // id: ctx.request.body.id
-    id: ctx.query.id || ctx.request.body.id
+    id: ctx.request.body.id
   }).del().then(res => {
     ctx.state.code = 0
     ctx.state.data = res
