@@ -2,8 +2,8 @@ const COS = require('cos-nodejs-sdk-v5');
 const cosconfig = require('./server/cosconfig');
 
 const CONF = {
-    http: 3005,
-    https: 3004,
+    http: 3003,
+    https: 3000,
 
     /**
      * MySQL 配置，用来存储 session 和用户信息
@@ -11,13 +11,13 @@ const CONF = {
      * 开发环境下，MySQL 的初始密码为您的微信小程序 appid
      */
     mysql: {
-        host: 'localhost',
+        // host: 'localhost',
         port: 3306,
         // host: 'ilovelyplat.com',
-        // host: '118.25.38.152',
+        host: '118.25.38.152',
         // port: 3306,
-        // user: 'ifoodimusic',
-        user: 'root',
+        user: 'ifoodimusic',
+        // user: 'root',
         db: 'ifoodimusic',
         pass: '09210110063as',
         char: 'utf8mb4'
