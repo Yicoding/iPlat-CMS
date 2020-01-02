@@ -29,7 +29,6 @@
   },
   "devDependencies": {
     "babel-eslint": "^7.1.0",
-    "cross-env": "^6.0.3",
     "debug": "^2.6.8",
     "eslint": "^3.9.1",
     "eslint-config-standard": "^6.2.1",
