@@ -5,12 +5,6 @@ const CONF = {
     dev: {
         http: 3005,
         https: 3000,
-
-        /**
-         * MySQL 配置，用来存储 session 和用户信息
-         * 若使用了腾讯云微信小程序解决方案
-         * 开发环境下，MySQL 的初始密码为您的微信小程序 appid
-         */
         mysql: {
             host: 'localhost',
             port: 3306,
@@ -23,12 +17,6 @@ const CONF = {
     prd: {
         http: 3003,
         https: 3000,
-
-        /**
-         * MySQL 配置，用来存储 session 和用户信息
-         * 若使用了腾讯云微信小程序解决方案
-         * 开发环境下，MySQL 的初始密码为您的微信小程序 appid
-         */
         mysql: {
             port: 3306,
             host: '118.25.38.152',
@@ -38,27 +26,6 @@ const CONF = {
             char: 'utf8mb4'
         },
     },
-    http: 3003,
-    https: 3000,
-
-    /**
-     * MySQL 配置，用来存储 session 和用户信息
-     * 若使用了腾讯云微信小程序解决方案
-     * 开发环境下，MySQL 的初始密码为您的微信小程序 appid
-     */
-    mysql: {
-        // host: 'localhost',
-        port: 3306,
-        // host: 'ilovelyplat.com',
-        host: '118.25.38.152',
-        // port: 3306,
-        user: 'ifoodimusic',
-        // user: 'root',
-        db: 'ifoodimusic',
-        pass: '09210110063as',
-        char: 'utf8mb4'
-    },
-
     cos: new COS({
         // 必选参数
         SecretId: cosconfig.SecretId,
