@@ -9,7 +9,7 @@
         "js": "node --harmony"
     },
     "env": {
-        "NODE_ENV": "development",
+        "NODE_ENV": "dev",
         "DEBUG": "*,-nodemon:*,-nodemon,-knex:pool"
     },
     "ext": "js json"

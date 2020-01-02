@@ -9,6 +9,7 @@ const response = require('./middlewares/response');
 const bodyParser = require('koa-bodyparser');
 
 const config = require('./config');
+const env = process.env.NODE_ENV;
 
 //同步读取密钥和签名证书
 const options = {
@@ -41,6 +42,6 @@ const router = require('./routes');
 app.use(router.routes());
 
 // https监听3000端口
-httpsServer.listen(config.https, () => debug(`listening on port ${config.https}`));
+httpsServer.listen(config[env].https, () => debug(`listening on port ${config[env].https}`));
 // http监听3003端口
-httpServer.listen(config.http, () => debug(`listening on port ${config.http}`));
+httpServer.listen(config[env].http, () => debug(`listening on port ${config[env].http}`));

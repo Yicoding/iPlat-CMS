@@ -6,7 +6,7 @@
     "watch": true,
     "ignore_watch": ["tmp"],
     "env": {
-        "NODE_ENV": "production"
+        "NODE_ENV": "prd"
     },
     "engines": {
         "node": ">=7.6"
