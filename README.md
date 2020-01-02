@@ -25,25 +25,25 @@ npm run prd
 ## 项目结构
 
 ```
-iplat
+iPlat-CMS
 ├── README.md
 ├── app.js
 ├── controllers
 │   ├── index.js
-│   ├── login.js
-│   ├── message.js
-│   ├── tunnel.js
-│   ├── upload.js
-│   └── user.js
 ├── middlewares
 │   └── response.js
+├── routes
+│    └── index.js
+├── server
+│   └── cosconfig.js
+├── tools
+│   └── util.js
 ├── config.js
-├── package.json
-├── process.json
 ├── nodemon.json
-├── qcloud.js
-└── routes
-    └── index.js
+├── package.json
+├── process.prod.json
+├── processes.json
+└── qcloud.js
 ```
 `app.js` 是 Demo 的主入口文件，Demo 使用 Koa 框架，在 `app.js` 创建一个 Koa 实例并响应请求。
 
