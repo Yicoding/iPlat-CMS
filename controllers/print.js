@@ -1,5 +1,5 @@
 const { mysql } = require('../qcloud')
-const { changedate } = require('../tools/util');
+const { changedate, AmtFormat } = require('../tools/util');
 
 // 打印配置
 const yly = require('yly-nodejs-sdk');
