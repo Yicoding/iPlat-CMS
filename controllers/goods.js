@@ -278,6 +278,8 @@ async function removeGoods(ctx, next) {
 async function getGoodsByCompany(ctx, next) {
   try {
     const item = ctx.query;
+    item.order = item.order || 'id';
+    item.sort = item.sort || 'ASC';
     const res = await mysql('type').
       select('id', 'name', 'code').
       where('company_id', item.company_id);
@@ -306,7 +308,7 @@ async function getGoodsByCompany(ctx, next) {
           'b.name as unitAllName',
           mysql.raw('count(order_detail.id) as saleNum')
         ).where('goods.typeName', 'REGEXP', `${todu.code}`).
-        groupBy('goods.id');
+        groupBy('goods.id').orderBy(item.order, item.sort);
       data.forEach(one => {
         one.unitOne = {
           id: one.unitSingle,
