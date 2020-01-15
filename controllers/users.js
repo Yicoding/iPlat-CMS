@@ -1,5 +1,6 @@
 const { mysql } = require('../qcloud')
 const axios = require('axios');
+const { changedate } = require('../tools/util');
 
 // 小程序微信授权登录换取openid
 async function getOpenId(ctx, next) {
@@ -127,7 +128,6 @@ async function userLogin(ctx, next) {
 // 小程序用户登录
 async function loginByWx(ctx, next) {
     try {
-        const token = Math.random().toString().slice(-8) + Date.now();
         const item = ctx.request.body;
         const res = await mysql('user').join('company', 'user.company_id', '=', 'company.id').join('role', 'user.role_id', '=', 'role.id').
             select(
@@ -153,14 +153,17 @@ async function loginByWx(ctx, next) {
             ctx.state.data = '用户名或密码不正确'
             return
         }
+        const token = Math.random().toString().slice(-8) + Date.now();
+        const time = changedate(new Date(), 'yyyy-MM-dd HH:mm:ss');
         const total = await mysql('token').select(1).where({ phone: item.phone });
         if (!total || total.length === 0) { // 不存在，新增
             await mysql('token').insert({
                 phone: item.phone,
-                token
+                token,
+                time
             });
         } else { // 存在，更新
-            await mysql('token').update({ token }).where({ phone: item.phone });
+            await mysql('token').update({ token, time }).where({ phone: item.phone });
         }
         res[0].token = token;
         ctx.state.data = res[0]
