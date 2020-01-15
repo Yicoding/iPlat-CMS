@@ -127,6 +127,7 @@ async function userLogin(ctx, next) {
 // 小程序用户登录
 async function loginByWx(ctx, next) {
     try {
+        const token = Math.random().toString().slice(-8) + Date.now();
         const item = ctx.request.body;
         const res = await mysql('user').join('company', 'user.company_id', '=', 'company.id').join('role', 'user.role_id', '=', 'role.id').
             select(
@@ -152,6 +153,16 @@ async function loginByWx(ctx, next) {
             ctx.state.data = '用户名或密码不正确'
             return
         }
+        const total = await mysql('token').select(1).where({ phone: item.phone });
+        if (!total || total.length === 0) { // 不存在，新增
+            await mysql('token').insert({
+                phone: item.phone,
+                token
+            });
+        } else { // 存在，更新
+            await mysql('token').update({ token }).where({ phone: item.phone });
+        }
+        res[0].token = token;
         ctx.state.data = res[0]
     } catch (e) {
         ctx.state.code = -1
