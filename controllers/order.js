@@ -55,6 +55,7 @@ async function getOrderList(ctx, next) {
         });
         const total = await mysql('order_list').select(mysql.raw('count(*) as total')).where(filter);
         const role = item.role;
+        console.log('userInfo***', data, userInfo, res)
         res.forEach(item => {
             if (!role || (role !== 'admin' || role !== 'root')) {
                 delete item.spend;
@@ -63,22 +64,22 @@ async function getOrderList(ctx, next) {
             if (item.createUser) {
                 item.createUser = {
                     id: item.createUser,
-                    name: userInfo[item.createUser].name,
-                    phone: userInfo[item.createUser].phone
+                    name: userInfo[item.createUser] ? userInfo[item.createUser].name : '不存在',
+                    phone: userInfo[item.createUser] ? userInfo[item.createUser].phone : '不存在'
                 }
             }
             if (item.payUser) {
                 item.payUser = {
                     id: item.payUser,
-                    name: userInfo[item.payUser].name,
-                    phone: userInfo[item.payUser].phone
+                    name: userInfo[item.payUser] ? userInfo[item.payUser].name : '不存在',
+                    phone: userInfo[item.payUser] ? userInfo[item.payUser].phone : '不存在'
                 }
             }
             if (item.finishUser) {
                 item.finishUser = {
                     id: item.finishUser,
-                    name: userInfo[item.finishUser].name,
-                    phone: userInfo[item.finishUser].phone
+                    name: userInfo[item.finishUser] ? userInfo[item.finishUser].name : '不存在',
+                    phone: userInfo[item.finishUser] ? userInfo[item.finishUser].phone : '不存在'
                 }
             }
         })
@@ -117,22 +118,22 @@ async function getOrderDetail(ctx, next) {
                 if (item.createUser) {
                     item.createUser = {
                         id: item.createUser,
-                        name: userInfo[item.createUser].name,
-                        phone: userInfo[item.createUser].phone
+                        name: userInfo[item.createUser] ? userInfo[item.createUser].name : '不存在',
+                        phone: userInfo[item.createUser] ? userInfo[item.createUser].phone : '不存在'
                     }
                 }
                 if (item.payUser) {
                     item.payUser = {
                         id: item.payUser,
-                        name: userInfo[item.payUser].name,
-                        phone: userInfo[item.payUser].phone
+                        name: userInfo[item.payUser] ? userInfo[item.payUser].name : '不存在',
+                        phone: userInfo[item.payUser] ? userInfo[item.payUser].phone : '不存在'
                     }
                 }
                 if (item.finishUser) {
                     item.finishUser = {
                         id: item.finishUser,
-                        name: userInfo[item.finishUser].name,
-                        phone: userInfo[item.finishUser].phone
+                        name: userInfo[item.finishUser] ? userInfo[item.finishUser].name : '不存在',
+                        phone: userInfo[item.finishUser] ? userInfo[item.finishUser].phone : '不存在'
                     }
                 }
                 ctx.state.code = 0

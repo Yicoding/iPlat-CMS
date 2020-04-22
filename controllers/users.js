@@ -140,6 +140,8 @@ async function loginByWx(ctx, next) {
                 'user.sign',
                 'user.avatar',
                 'company.id as company_id',
+                'company.address as company_address',
+                'company.logo as company_logo',
                 'company.name as companyName',
                 'role.id as role_id',
                 'role.name as role_name'
@@ -165,8 +167,10 @@ async function loginByWx(ctx, next) {
         } else { // 存在，更新
             await mysql('token').update({ token, time }).where({ phone: item.phone });
         }
-        res[0].token = token;
-        ctx.state.data = res[0]
+        res.forEach(item => {
+            item.token = token;
+        })
+        ctx.state.data = res
     } catch (e) {
         ctx.state.code = -1
         throw new Error(e)
@@ -188,6 +192,11 @@ async function addUser(ctx, next) {
     };
     if (item.sex) {
         info.sex = item.sex;
+    }
+    const total = await mysql('user').select(1).where({ phone: item.phone, company_id: item.company_id }).orWhere({ name: item.name, company_id: item.company_id });
+    if (total && total.length > 0) { // 存在,不能新增
+        ctx.state.code = -1
+        throw new Error('用户名或手机号已注册，请更换');
     }
     await mysql('user').insert(info).then(res => {
         ctx.state.code = 0
