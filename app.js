@@ -11,7 +11,7 @@ const bodyParser = require('koa-bodyparser');
 const config = require('./config');
 const env = process.env.NODE_ENV;
 
-//同步读取密钥和签名证书
+// 同步读取密钥和签名证书
 const options = {
   key: fs.readFileSync('./server/index.key'),
   cert: fs.readFileSync('./server/index.crt')

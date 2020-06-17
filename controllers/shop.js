@@ -17,6 +17,7 @@ async function getShoplist(ctx, next) {
         'shop.priceType',
         'shop.num',
         'shop.writePrice',
+        'shop.company_id',
         'goods.name',
         'goods.coverImg',
         'goods.desc',
@@ -94,7 +95,7 @@ async function getShoplistEasy(ctx, next) {
 // 新增购物车
 async function addShop(ctx, next) {
   try {
-    const { user_id, good_id, unitType, priceType, num, writePrice } = ctx.request.body;
+    const { user_id, good_id, unitType, priceType, num, writePrice, company_id } = ctx.request.body;
     const res = await mysql('shop').
     insert({
       user_id,
@@ -102,7 +103,8 @@ async function addShop(ctx, next) {
       unitType,
       priceType,
       num,
-      writePrice
+      writePrice,
+      company_id
     });
     ctx.state.code = 0;
     const data = {
@@ -193,9 +195,10 @@ async function removeShopById(ctx, next) {
 // 按用户删除购物车
 async function removeShopByUser(ctx, next) {
   try {
-    const { user_id } = ctx.request.body;
+    const { user_id, company_id } = ctx.request.body;
     const res = await mysql('shop').where({
-      user_id
+      user_id,
+      company_id
     }).del();
     ctx.state.code = 0;
     ctx.state.data = res;
