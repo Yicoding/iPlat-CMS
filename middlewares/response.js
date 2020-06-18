@@ -29,7 +29,7 @@ module.exports = async function (ctx, next) {
             // 输出详细的错误信息
             ctx.body = {
                 code: 403,
-                error: 'tooken is notFund'
+                data: 'tooken is notFund'
             }
         }
         const res = await mysql('token').select(1).where({ phone, token });
@@ -40,7 +40,7 @@ module.exports = async function (ctx, next) {
             // 输出详细的错误信息
             ctx.body = {
                 code: 403,
-                error: 'token is notFund'
+                data: 'token is notFund'
             }
         }
         // 调用下一个 middleware
@@ -63,7 +63,7 @@ module.exports = async function (ctx, next) {
         // 输出详细的错误信息
         ctx.body = {
             code: -1,
-            error: e && e.message ? e.message : e.toString()
+            data: e && e.message ? e.message : e.toString()
         }
     }
 }
