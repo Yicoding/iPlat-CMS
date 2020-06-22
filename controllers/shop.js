@@ -3,11 +3,11 @@ const { mysql } = require('../qcloud');
 // 获取购物车列表
 async function getShoplist(ctx, next) {
   try {
-    const { user_id, order='DESC' } = ctx.query;
+    const { user_id, order = 'DESC', company_id } = ctx.query;
     const res = await mysql('shop').
-    join('goods', 'shop.good_id', '=', 'goods.id').
-    join(mysql.raw('(select id, name from unit) as a'), 'goods.unitSingle', '=', 'a.id').
-    join(mysql.raw('(select id, name from unit) as b'), 'goods.unitAll', '=', 'b.id').
+      join('goods', 'shop.good_id', '=', 'goods.id').
+      join(mysql.raw('(select id, name from unit) as a'), 'goods.unitSingle', '=', 'a.id').
+      join(mysql.raw('(select id, name from unit) as b'), 'goods.unitAll', '=', 'b.id').
       select(
         'shop.id',
         'shop.good_id',
@@ -29,11 +29,14 @@ async function getShoplist(ctx, next) {
         'goods.sellAll',
         'goods.num as unitDecimal'
       ).
-      where('user_id', user_id).
+      where({
+        'shop.user_id': user_id,
+        'shop.company_id': company_id
+      }).
       orderBy('shop.id', order);
     ctx.state.code = 0;
     ctx.state.data = res;
-  } catch(e) {
+  } catch (e) {
     ctx.state.code = -1;
     throw new Error(e);
   }
@@ -42,11 +45,11 @@ async function getShoplist(ctx, next) {
 // 获取购物车失效列表
 async function getShoplistInValid(ctx, next) {
   try {
-    const { user_id, order='DESC' } = ctx.query;
+    const { user_id, order = 'DESC', company_id } = ctx.query;
     const res = await mysql('shop').
-    join('good_remove', 'shop.good_id', '=', 'good_remove.id').
-    join(mysql.raw('(select id, name from unit) as a'), 'good_remove.unitSingle', '=', 'a.id').
-    join(mysql.raw('(select id, name from unit) as b'), 'good_remove.unitAll', '=', 'b.id').
+      join('good_remove', 'shop.good_id', '=', 'good_remove.id').
+      join(mysql.raw('(select id, name from unit) as a'), 'good_remove.unitSingle', '=', 'a.id').
+      join(mysql.raw('(select id, name from unit) as b'), 'good_remove.unitAll', '=', 'b.id').
       select(
         'shop.id',
         'shop.good_id',
@@ -67,11 +70,14 @@ async function getShoplistInValid(ctx, next) {
         'good_remove.sellAll',
         'good_remove.num as unitDecimal',
       ).
-      where('user_id', user_id).
+      where({
+        'shop.user_id': user_id,
+        'shop.company_id': company_id
+      }).
       orderBy('shop.id', order);
     ctx.state.code = 0;
     ctx.state.data = res;
-  } catch(e) {
+  } catch (e) {
     ctx.state.code = -1;
     throw new Error(e);
   }
@@ -86,7 +92,7 @@ async function getShoplistEasy(ctx, next) {
       where('user_id', user_id);
     ctx.state.code = 0;
     ctx.state.data = res;
-  } catch(e) {
+  } catch (e) {
     ctx.state.code = -1;
     throw new Error(e);
   }
@@ -97,21 +103,21 @@ async function addShop(ctx, next) {
   try {
     const { user_id, good_id, unitType, priceType, num, writePrice, company_id } = ctx.request.body;
     const res = await mysql('shop').
-    insert({
-      user_id,
-      good_id,
-      unitType,
-      priceType,
-      num,
-      writePrice,
-      company_id
-    });
+      insert({
+        user_id,
+        good_id,
+        unitType,
+        priceType,
+        num,
+        writePrice,
+        company_id
+      });
     ctx.state.code = 0;
     const data = {
       id: res[0]
     };
     ctx.state.data = data;
-  } catch(e) {
+  } catch (e) {
     ctx.state.code = -1;
     throw new Error(e);
   }
@@ -122,13 +128,13 @@ async function addShopMultiple(ctx, next) {
   try {
     const { shopList } = ctx.request.body;
     const res = await mysql('shop').
-    insert(shopList);
+      insert(shopList);
     ctx.state.code = 0;
     const data = {
       id: res[0]
     };
     ctx.state.data = data;
-  } catch(e) {
+  } catch (e) {
     ctx.state.code = -1;
     throw new Error(e);
   }
@@ -155,7 +161,7 @@ async function updateShop(ctx, next) {
       });
     ctx.state.code = 0;
     ctx.state.data = res;
-  } catch(e) {
+  } catch (e) {
     ctx.state.code = -1;
     throw new Error(e);
   }
@@ -173,7 +179,7 @@ async function removeShop(ctx, next) {
     }).del();
     ctx.state.code = 0;
     ctx.state.data = res;
-  } catch(e) {
+  } catch (e) {
     ctx.state.code = -1;
     throw new Error(e);
   }
@@ -183,10 +189,10 @@ async function removeShop(ctx, next) {
 async function removeShopById(ctx, next) {
   try {
     const { id } = ctx.request.body;
-    const res = await mysql('shop').where({id}).del();
+    const res = await mysql('shop').where({ id }).del();
     ctx.state.code = 0;
     ctx.state.data = res;
-  } catch(e) {
+  } catch (e) {
     ctx.state.code = -1;
     throw new Error(e);
   }
@@ -202,7 +208,7 @@ async function removeShopByUser(ctx, next) {
     }).del();
     ctx.state.code = 0;
     ctx.state.data = res;
-  } catch(e) {
+  } catch (e) {
     ctx.state.code = -1;
     throw new Error(e);
   }

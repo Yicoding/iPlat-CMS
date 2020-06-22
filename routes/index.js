@@ -72,6 +72,7 @@ router.put('/removeType', controllers.food.removeType)
 // iplat平台
 // 公司
 router.get('/getCompanyList', controllers.company.getCompanyList) // 查看公司列表
+router.get('/getAreaStoreList', controllers.company.getAreaStoreList) // 查看公司列表
 router.get('/getCompanyDetail', controllers.company.getCompanyDetail) // 查看单个公司列表
 router.post('/addCompany', controllers.company.addCompany) // 新增公司
 router.put('/updateCompany', controllers.company.updateCompany) // 更新单个公司
@@ -93,6 +94,7 @@ router.put('/removeGoodsType', controllers.type.removeGoodsType) // 删除单个
 
 // 获取openid
 router.get('/getOpenId', controllers.users.getOpenId) // 查看用户列表
+router.get('/getOpenIdStore', controllers.users.getOpenIdStore) // 查看用户列表
 // 用户
 router.get('/getUserList', controllers.users.getUserList) // 查看用户列表
 router.get('/getUserDetail', controllers.users.getUserDetail) // 查看单个用户列表
@@ -101,6 +103,7 @@ router.post('/loginByWx', controllers.users.loginByWx) // 用户登录
 router.post('/addUser', controllers.users.addUser) // 新增用户
 router.put('/updateUser', controllers.users.updateUser) // 更新单个用户
 router.put('/removeUser', controllers.users.removeUser) // 删除单个用户
+router.get('/getCustomerDetail', controllers.users.getCustomerDetail) // 删除单个用户
 
 // 商品
 router.get('/getGoodsList', controllers.goods.getGoodsList) // 查看商品列表

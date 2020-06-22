@@ -3,6 +3,26 @@ const axios = require('axios');
 const { changedate } = require('../tools/util');
 
 // 小程序微信授权登录换取openid
+async function getOpenIdStore(ctx, next) {
+    try {
+        const { code } = ctx.query;
+        const { data } = await axios.get('https://api.weixin.qq.com/sns/jscode2session', {
+            params: {
+                appid: 'wxdd0349378638deca',
+                secret: '473d52d05176b0175cc396f7a6bb2f2d',
+                js_code: code,
+                grant_type: 'authorization_code'
+            }
+        });
+        ctx.state.code = 0
+        ctx.state.data = data
+    } catch (err) {
+        ctx.state.code = -1
+        throw new Error(err)
+    }
+}
+
+// 小程序微信授权登录换取openid
 async function getOpenId(ctx, next) {
     try {
         const { code } = ctx.query;
@@ -89,6 +109,37 @@ async function getUserDetail(ctx, next) {
             ctx.state.code = -1
             throw new Error(err)
         })
+}
+
+// 查看单个客户详情
+async function getCustomerDetail(ctx, next) {
+    try {
+        const { openid } = ctx.query;
+        const res = await mysql('customer').
+            select().
+            where({ openid });
+        const storeList = [];
+        const item = res[0];
+        item.storeList = [];
+        if (item.storeIds) {
+            const arr = item.storeIds.split(',');
+            for (let i = 0; i < arr.length; i ++) {
+                const id = arr[i];
+                const data = await mysql('company').
+                    select().
+                    where({ id });
+                storeList.push(data[0]);
+            }
+            item.storeList = storeList;
+        }
+        ctx.state = {
+            code: 0,
+            data: item
+        }
+    } catch (e) {
+        ctx.state.code = -1;
+        throw new Error(e);
+    }
 }
 
 // 用户登录
@@ -257,5 +308,7 @@ module.exports = {
     addUser,
     updateUser,
     removeUser,
-    getOpenId
+    getOpenId,
+    getOpenIdStore,
+    getCustomerDetail
 }
