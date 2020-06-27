@@ -50,3 +50,6 @@ iPlat-CMS
 `routes/index.js` 是 Demo 的路由定义文件
 
 `controllers` 存放 Demo 所有业务逻辑的目录，`index.js` 不需要修改，他会动态的将 `controllers` 文件夹下的目录结构映射成 modules 的 Object，例如 Demo 中的目录将会被映射成如下的结构：
+
+密钥：https://www.bt.cn/admin/safe
+key直接复制，crt文件需要证书+根证书
