@@ -194,6 +194,7 @@ async function loginByWx(ctx, next) {
                 'company.address as company_address',
                 'company.logo as company_logo',
                 'company.name as companyName',
+                'company.type as companyType',
                 'role.id as role_id',
                 'role.name as role_name'
             ).where({
