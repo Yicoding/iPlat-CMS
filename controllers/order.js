@@ -161,21 +161,33 @@ async function addOrder(ctx, next) {
             customerName,
             customerPhone,
             customerSite,
-            orderList
+            orderList,
+            state,
+            payUser,
+            finishUser
         } = item;
         const currentTime = changedate(new Date(), 'yyyy-MM-dd HH:mm:ss');
-        const res = await mysql('order_list').insert({
+        const values = {
             company_id,
             spend,
             total,
             gain,
-            state: 1,
+            state: state || 1,
             createTime: currentTime,
             createUser,
             customerName,
             customerPhone,
             customerSite
-        });
+        };
+        if (payUser) { // 收款
+            values.payTime = currentTime;
+            values.payUser = payUser;
+        }
+        if (finishUser) {
+            values.finishTime = currentTime;
+            values.finishUser = finishUser;
+        }
+        const res = await mysql('order_list').insert(values);
         const id = res[0]
         orderList.forEach(item => {
             item.order_id = id
