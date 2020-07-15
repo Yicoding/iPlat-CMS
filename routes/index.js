@@ -121,6 +121,13 @@ router.post('/addUnit', controllers.unit.addUnit) // 新增单位
 router.put('/updateUnit', controllers.unit.updateUnit) // 更新单个单位
 router.put('/removeUnit', controllers.unit.removeUnit) // 删除单个单位
 
+// 偏好
+router.get('/getHobbyList', controllers.hobby.getHobbyList) // 查看单位列表
+router.get('/getHobbyDetail', controllers.hobby.getHobbyDetail) // 查看单个单位列表
+router.post('/addHobby', controllers.hobby.addHobby) // 新增单位
+router.put('/updateHobby', controllers.hobby.updateHobby) // 更新单个单位
+router.put('/removeHobby', controllers.hobby.removeHobby) // 删除单个单位
+
 // 订单
 router.get('/getOrderList', controllers.order.getOrderList) // 查看订单列表
 router.get('/getOrderDetail', controllers.order.getOrderDetail) // 查看订单详情
